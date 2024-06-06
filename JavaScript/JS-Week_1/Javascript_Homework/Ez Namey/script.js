@@ -3,9 +3,10 @@ const firstWords = ["Easy", "Awesome", "Corporate", "Innovative", "Dynamic", "Cr
 const secondWords = ["Solutions", "Corporation", "Enterprises", "Technologies", "Systems", "Developments", "Networks", "Ventures", "Innovations", "Dynamics"];
 
 const randomNumber = Math.floor(Math.random() * 10);
+const randomNumber2 = Math.floor(Math.random() * 10);
 
 
-const startupName = firstWords[randomNumber] + " " + secondWords[randomNumber];
+const startupName = firstWords[randomNumber] + " " + secondWords[randomNumber2];
 
 const numberOfCharacters = startupName.length;
 
