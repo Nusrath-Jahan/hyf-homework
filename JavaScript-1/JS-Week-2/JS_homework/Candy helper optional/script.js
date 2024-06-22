@@ -32,12 +32,14 @@ function getTotalPrice() {
 
 
 function canBuyMoreCandy() {
+
+    const amountToSpend = Math.random() * 100;
     const totalSpent = getTotalPrice();
     return totalSpent < amountToSpend;
 }
 
 
-const amountToSpend = Math.random() * 100;
+
 
 
 addCandy('sweet', 20);
