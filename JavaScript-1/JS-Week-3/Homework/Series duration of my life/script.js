@@ -18,14 +18,10 @@ const seriesDurations = [
     minutes: 30,
   },
 ];
+
 function calculateLifeSpentOnSeries(seriesDurations) {
   const averageLifespanYears = 80;
   const averageLifespanMinutes = averageLifespanYears * 365 * 24 * 60;
-
-  function seriesDurationInMinutes(series) {
-    const { days, hours, minutes } = series;
-    return days * 24 * 60 + hours * 60 + minutes;
-  }
 
   let totalMinutesWatched = 0;
   let seriesPercentages = seriesDurations.map((series) => {
@@ -49,6 +45,11 @@ function calculateLifeSpentOnSeries(seriesDurations) {
   console.log(
     `In total that is ${totalPercentageOfLifeSpent.toFixed(3)}% of my life`
   );
+}
+
+function seriesDurationInMinutes(series) {
+  const { days, hours, minutes } = series;
+  return days * 24 * 60 + hours * 60 + minutes;
 }
 
 calculateLifeSpentOnSeries(seriesDurations);

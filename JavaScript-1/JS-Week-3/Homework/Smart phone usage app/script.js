@@ -68,3 +68,32 @@ addActivity("23/7-18", "Whats App", 28);
 setUsageLimit(60);
 showStatus();
 getMostTimeSpentActivity();
+//Created a function for calculating the activity a user has spent the most time on.
+
+function longestActivity(activities) {
+  //this ifElse is optional.You can write this function without this ifElse.
+  if (!Array.isArray(activities) || activities.length === 0) {
+    return null;
+  }
+
+  //if you want ,you can start from here
+  let maxActivity = activities[0];
+
+  for (let i = 1; i < activities.length; i++) {
+    if (activities[i].duration > maxActivity.duration) {
+      maxActivity = activities[i];
+    }
+  }
+
+  return maxActivity;
+}
+
+const maxActivity = longestActivity(activities);
+
+if (maxActivity) {
+  console.log(
+    `The activity with the most time spent is: ${maxActivity.activity} (${maxActivity.duration} minutes)`
+  );
+} else {
+  console.log("No activities found.");
+}
