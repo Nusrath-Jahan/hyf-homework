@@ -3,21 +3,23 @@ let todos = [];
 
 function getReply(command) {
   // Handling the "Hello my name is ..." command
-  if (command.startsWith("Hello my name is ")) {
-    const name = command.slice(17);
+  const nameRegex = /^Hello\s+my\s+name\s*(?:is|'s)\s+([^\s].*)$/i;
+  const nameMatch = command.match(nameRegex);
+  if (nameMatch) {
+    const name = nameMatch[1];
     if (name === userName) {
       return `You already introduced yourself, ${userName}.`;
     }
     userName = name;
-    return `Nice to meet you ${userName}`;
+    return `Nice to meet you, ${userName}!`;
   }
 
   // Handling the "What is my name?" command
-  if (command === "What is my name?") {
+  if (command.toLowerCase() === "what is my name?") {
     if (userName) {
-      return `Your name is ${userName}`;
+      return `Your name is ${userName}.`;
     } else {
-      return "I don't know your name yet.";
+      return "You have not introduced yourself yet.";
     }
   }
 
@@ -103,8 +105,8 @@ function getReply(command) {
 
   return "I'm sorry, I didn't understand that command.";
 }
-
-console.log(getReply("Hello my name is Benjamin"));
+console.log(getReply("Hello my name is Valentin"));
+// console.log(getReply("hello my name is Benjamin"));
 console.log(getReply("What is my name?"));
 console.log(getReply("Add fishing to my todo"));
 console.log(getReply("Add singing in the shower to my todo"));
