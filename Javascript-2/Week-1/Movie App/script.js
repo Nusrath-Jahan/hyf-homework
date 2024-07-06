@@ -2,25 +2,45 @@ import { movies } from "./arrayList.js";
 
 //////////////////////Streaming Function
 const nowStreaming = document.querySelector(".streaming");
-
 function createMovieCard(movie) {
-  //Creat a cotainer to store the Image and readMore Button
+  const movieContainer = createMovieContainer();
+  const movieElements = createMovieElements(movie);
+  const movieDetails = createMovieDetails(movie);
+  const commentSection = createCommentSection();
 
+  movieContainer.appendChild(movieElements.img);
+  movieContainer.appendChild(movieElements.readMoreBtn);
+  movieContainer.appendChild(movieElements.starRating);
+  movieContainer.appendChild(movieDetails);
+  movieDetails.appendChild(commentSection);
+
+  addEventListeners(
+    movieElements.readMoreBtn,
+    movieDetails,
+    movieElements.stars
+  );
+
+  return movieContainer;
+}
+
+function createMovieContainer() {
   const movieContainer = document.createElement("div");
   movieContainer.className = "movie-container";
+  return movieContainer;
+}
 
-  //
-  //  Create an img element and set its src attribute
+function createMovieElements(movie) {
+  // Create image element
   const img = document.createElement("img");
   img.width = 200;
   img.src = movie.poster_url;
 
-  // Create a button element
+  // Create button element
   const readMoreBtn = document.createElement("button");
   readMoreBtn.textContent = "About";
   readMoreBtn.className = "accordion";
 
-  // starRating
+  // Create star rating element
   const starRating = document.createElement("div");
   starRating.className = "star-rating";
   const numberOfStars = 5;
@@ -32,6 +52,72 @@ function createMovieCard(movie) {
     starRating.appendChild(star);
     stars.push(star);
   }
+
+  return { img, readMoreBtn, starRating, stars };
+}
+
+function createMovieDetails(movie) {
+  const movieDetails = document.createElement("div");
+  movieDetails.className = "movie-details";
+  movieDetails.style.display = "none";
+  movieDetails.style.color = "white";
+  movieDetails.innerHTML = `
+    <p><strong>Title:</strong> ${movie.title}</p>
+    <p><strong>Description:</strong> ${movie.description}</p>
+    <p><strong>Release Year:</strong> ${movie.movie_year}</p>
+    <p><strong>Director:</strong> ${movie.director}</p>
+    <p><strong>Actors:</strong> ${movie.actors.join(", ")}</p>
+  `;
+  return movieDetails;
+}
+
+function createCommentSection() {
+  const commentSection = document.createElement("div");
+  commentSection.innerHTML = "Comments: ";
+  commentSection.style.fontWeight = "bold";
+  commentSection.className = "comment-section";
+
+  const commentInput = document.createElement("input");
+  commentInput.type = "text";
+  commentInput.value = "";
+  commentInput.placeholder = "Add a Comment";
+  commentInput.style.color = "white";
+
+  const commentButton = document.createElement("button");
+  commentButton.className = "comment-button";
+  commentButton.innerHTML = "Submit";
+
+  const comments = document.createElement("div");
+  comments.className = "comments";
+  const commentUl = document.createElement("ul");
+
+  commentButton.addEventListener("click", () => {
+    if (commentInput.value) {
+      const comment = document.createElement("li");
+      comment.textContent = commentInput.value;
+      commentUl.appendChild(comment);
+      commentInput.value = "";
+    }
+    comments.appendChild(commentUl);
+  });
+
+  commentSection.appendChild(commentInput);
+  commentSection.appendChild(commentButton);
+  commentSection.appendChild(comments);
+
+  return commentSection;
+}
+
+function addEventListeners(readMoreBtn, movieDetails, stars) {
+  readMoreBtn.addEventListener("click", function () {
+    this.classList.toggle("active");
+    if (movieDetails.style.display === "block") {
+      movieDetails.style.display = "none";
+    } else {
+      movieDetails.style.display = "block";
+    }
+  });
+
   const starClassActive = "rating__star fas fa-star";
   const starClassInactive = "rating__star far fa-star";
   stars.forEach((star, clickedStarIndex) => {
@@ -45,78 +131,9 @@ function createMovieCard(movie) {
       });
     };
   });
-
-  movieContainer.appendChild(img);
-  movieContainer.appendChild(readMoreBtn);
-  movieContainer.appendChild(starRating);
-
-  // Create element to show details about the movie
-  const movieDetails = document.createElement("div");
-  movieDetails.className = "movie-details";
-  movieDetails.style.display = "none";
-  movieDetails.style.color = "white";
-  movieDetails.innerHTML = `
-             <p><strong>Title:</strong> ${movie.title}</p>
-             <p><strong>Description:</strong> ${movie.description}</p>
-             <p><strong>Release Year:</strong> ${movie.movie_year}</p>
-             <p><strong>Director:</strong> ${movie.director}</p>
-             <p><strong>Actors:</strong> ${movie.actors.join(", ")}</p>
-         `;
-  movieContainer.appendChild(movieDetails);
-
-  // Adding the comment Section
-
-  function createCommentSection() {
-    const commentSection = document.createElement("div");
-    commentSection.innerHTML = "Comments: ";
-    commentSection.style.fontWeight = "bold";
-    commentSection.className = "comment-section";
-    const commentInput = document.createElement("input");
-    commentInput.type = "text";
-    commentInput.value = "";
-    commentInput.placeholder = "Add a Comment";
-    commentInput.style.color = "white";
-    const commentButton = document.createElement("button");
-    commentButton.className = "comment-button";
-    commentButton.innerHTML = "Submit";
-    const comments = document.createElement("div");
-    comments.className = "comments";
-    const commentUl = document.createElement("ul");
-
-    commentButton.addEventListener("click", () => {
-      const commentUl = document.createElement("ul");
-      if (commentInput.value) {
-        const comment = document.createElement("li");
-        comment.textContent = commentInput.value;
-        commentUl.appendChild(comment);
-        commentInput.value = "";
-      }
-      comments.appendChild(commentUl);
-    });
-
-    // append
-    commentSection.appendChild(commentInput);
-    commentSection.appendChild(commentButton);
-    commentSection.appendChild(comments);
-    movieDetails.appendChild(commentSection);
-  }
-  createCommentSection();
-
-  function toggle() {
-    {
-      this.classList.toggle("active");
-      /* Toggle between hiding and showing the active panel */
-      if (movieDetails.style.display === "block") {
-        movieDetails.style.display = "none";
-      } else {
-        movieDetails.style.display = "block";
-      }
-    }
-  }
-
-  readMoreBtn.addEventListener("click", toggle);
-  return movieContainer;
 }
+
+//----------------------------------------------------------
 
 function createMoviesPage() {
   nowStreaming.innerHTML = "";
@@ -126,6 +143,7 @@ function createMoviesPage() {
   });
 }
 createMoviesPage();
+
 // JS 2
 const searchBtn = document.getElementById("search-icon");
 
@@ -151,34 +169,12 @@ searchBtn.addEventListener("click", () => {
   });
 });
 
-//
-// creating toggling in filter/shorting option
-const shorting = document.getElementById("shorting");
-const filters = document.getElementById("filters");
-shorting.addEventListener("mouseover", function () {
-  this.classList.toggle("active");
-  if (filters.style.display === "block") {
-    filters.style.display = "none";
-  } else {
-    filters.style.display = "block";
-  }
-});
-const newRelease = document.getElementById("newRelease");
-newRelease.addEventListener("click", function () {
-  nowStreaming.innerHTML = "";
-  movies.forEach((movie) => {
-    if (movie.movie_year >= 2023) {
-      const movieElement = createMovieCard(movie);
-      nowStreaming.appendChild(movieElement);
-    }
-  });
-});
-
 const login = document.getElementById("loginButton");
 const loginPage = document.getElementById("logIn");
 
 login.addEventListener("mouseover", function onclick() {
   this.classList.toggle("active");
+
   /* Toggle between hiding and showing the active panel */
   if (loginPage.style.display === "block") {
     loginPage.style.display = "none";

@@ -13,7 +13,7 @@ header {
 section {
     margin: 20px 0 20px 50px;
   }
-  .site-name {
+  p.site-name {
     color: rgb(128, 0, 32);
     font-weight: bolder;
     font-size: xx-large;
