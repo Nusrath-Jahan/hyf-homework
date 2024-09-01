@@ -39,10 +39,12 @@ WHERE title LIKE '%database%' or description LIKE '%database%';
 SELECT title, status.name AS status FROM task JOIN status ON task.status_id = status.id;
 
 --9.Get the name of each status, along with a count of how many tasks have that status
-SELECT s.name, COUNT(t.status_id) as Total_Task
-FROM task t JOIN status s
-on t.status_id = s.id
-GROUP BY t.status_id;
+
+SELECT s.name AS status_name, COUNT(t.status_id) as task_count
+FROM status s 
+LEFT JOIN task t 
+on s.id = t.status_id  
+GROUP BY s.name;
 
 --10.Get the names of all statuses, sorted by the status with most tasks first
 select s.name AS Status, t.created AS Created, t.title AS Task 
