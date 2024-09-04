@@ -48,6 +48,7 @@ GROUP BY s.name;
 
 --10.Get the names of all statuses, sorted by the status with most tasks first
 select s.name AS Status, t.created AS Created, t.title AS Task 
-from status s JOIN task t 
+from status s 
+LEFT JOIN task t 
 ON s.id = t.status_id
 ORDER BY created DESC;
