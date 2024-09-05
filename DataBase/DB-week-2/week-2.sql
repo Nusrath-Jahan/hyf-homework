@@ -1,4 +1,4 @@
---Part 1: Working with task-------------------------------------------
+--Part 1: Working with task-------------------
 use myfirstdb;
 --Add a task with these attributes: title, description, created, updated, due_date, status_id, user_id
 INSERT INTO task (title, description, created, updated, due_date, status_id, user_id);
@@ -28,7 +28,8 @@ DELETE FROM task
 WHERE id = 33 AND description is NULL;
 
 
---Part 2: School database-----------------------------------
+--Part 2: School database-----------------------------
+
 CREATE DATABASE SchoolHYF;
 use SchoolHYF;
 
@@ -59,7 +60,14 @@ VALUES
 ('Carol Williams', 'carol.williams@gmail.com', '45-988765', 3);
 
 CREATE INDEX idx_student_name ON student(name);
---2nd ta kora hoini
+use SchoolHYF;
+ALTER TABLE class
+ADD COLUMN status ENUM(
+    'not-started',
+    'ongoing',
+    'finished'
+) NOT NULL;
+
 
 ALTER TABLE class
 ADD status VARCHAR(100) NOT NULL ;
@@ -69,7 +77,7 @@ VALUES('not-started', 'ongoing', 'finished');
 ALTER TABLE class
 ADD CONSTRAINT chk_class_status CHECK (status IN ('not-started', 'ongoing', 'finished'));
 
---Part 3: More queries--------------------------------------
+--Part 3: More queries-----------------------
 
 use myfirstdb;
 
@@ -98,6 +106,3 @@ ORDER BY MONTH(created);
 SELECT  MONTHNAME(created) as Month, COUNT(*) AS All_Task
 FROM task
 GROUP BY MONTHNAME(created);
-
-
-
