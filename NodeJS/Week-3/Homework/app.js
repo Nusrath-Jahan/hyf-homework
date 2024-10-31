@@ -22,53 +22,33 @@ app.use("/api", apiRouter);
 const contactsAPIRouter = express.Router();
 apiRouter.use("/contacts", contactsAPIRouter);
 
+
 contactsAPIRouter.get("/", async (req, res) => {
-  let query = knexInstance.select("*").from("contacts");
+    let query = knexInstance.select("*").from("contacts");
 
-  if ("sort" in req.query) {
-    const orderBy = req.query.sort.toString();
-    if (orderBy.length > 0) {
-      query = query.orderByRaw(orderBy);
+    if ("sort" in req.query) {
+      const validColumns = ["first_name", "last_name", "id"];
+      const sortParams = req.query.sort.split(" "); // 'first_name ASC' => ['first_name', 'ASC']
+
+      const column = sortParams[0];
+      const order = sortParams[1] && sortParams[1].toUpperCase() === "DESC" ? "DESC" : "ASC";
+
+      // Validate column name to prevent SQL injection
+      if (validColumns.includes(column)) {
+        query = query.orderBy(column, order);
+      } else {
+        return res.status(400).json({ error: "Invalid sort column" });
+      }
     }
-  }
 
-  console.log("SQL", query.toSQL().sql);
-
-  try {
-    const data = await query;
-    res.json({ data });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-////////////////////
-// contactsAPIRouter.get("/", async (req, res) => {
-//     let query = knexInstance.select("*").from("contacts");
-
-//     if ("sort" in req.query) {
-//       const validColumns = ["first_name", "last_name", "id"];
-//       const sortParams = req.query.sort.split(" "); // 'first_name ASC' => ['first_name', 'ASC']
-
-//       const column = sortParams[0];
-//       const order = sortParams[1] && sortParams[1].toUpperCase() === "DESC" ? "DESC" : "ASC";
-
-//       // Validate column name to prevent SQL injection
-//       if (validColumns.includes(column)) {
-//         query = query.orderBy(column, order);
-//       } else {
-//         return res.status(400).json({ error: "Invalid sort column" });
-//       }
-//     }
-
-//     try {
-//       const data = await query;
-//       res.json({ data });
-//     } catch (e) {
-//       console.error(e);
-//       res.status(500).json({ error: "Internal server error" });
-//     }
-//   });
+    try {
+      const data = await query;
+      res.json({ data });
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
 
 //////////////////////
 
