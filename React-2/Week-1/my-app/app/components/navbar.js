@@ -51,7 +51,7 @@ export default function Navbar() {
               open={Boolean(anchorEl)}
               onClose={handleCloseMenu}
             >
-              <MenuItem onClick={() => handleNavigate("/pages/blog_website")}>
+              <MenuItem onClick={() => handleNavigate("/pages/blogs")}>
                 Home
               </MenuItem>
               <MenuItem onClick={() => handleNavigate("/pages/picture")}>
@@ -68,7 +68,7 @@ export default function Navbar() {
           <>
             <Button
               color="inherit"
-              onClick={() => handleNavigate("/pages/blog_website")}
+              onClick={() => handleNavigate("/pages/blogs")}
             >
               Home
             </Button>

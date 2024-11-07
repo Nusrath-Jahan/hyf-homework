@@ -1,7 +1,8 @@
-// pages/blogs/index.js
+"use client";
 import Link from "next/link";
 
 export default function Blogs() {
+  // List of blog posts with id and title
   const blogPosts = [
     { id: "my-first-post", title: "My First Post" },
     { id: "nasa-journey", title: "NASA Journey" },
