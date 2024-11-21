@@ -1,6 +1,8 @@
 The name of 5 veggies :
 Beans
 Cucumber
-Eggplant
+Garlic
 Broccoli
 Lettuce
+Carrot
+Tomato
