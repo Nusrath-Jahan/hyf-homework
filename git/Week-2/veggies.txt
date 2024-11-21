@@ -1,7 +1,7 @@
 The name of 5 veggies :
 Beans
 Cucumber
-Garlic
+Chili
 Spinach
 Broccoli
 Lettuce
