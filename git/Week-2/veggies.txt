@@ -7,3 +7,5 @@ Broccoli
 Lettuce
 Carrot
 Tomato
+Cabbage
+Chili
