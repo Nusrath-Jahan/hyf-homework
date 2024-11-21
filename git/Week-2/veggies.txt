@@ -1,0 +1,11 @@
+The name of 5 veggies :
+Beans
+Cucumber
+Garlic
+Spinach
+Broccoli
+Lettuce
+Carrot
+Tomato
+Cabbage
+Chili
